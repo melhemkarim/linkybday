@@ -16,6 +16,7 @@ async function startMic(): Promise<Mic> {
     audio: { echoCancellation: false, noiseSuppression: false, autoGainControl: false },
   });
   const ctx = getAudioContext();
+  await ctx.resume(); // iOS can leave the context suspended until after the mic prompt
   const src = ctx.createMediaStreamSource(stream);
   const analyser = ctx.createAnalyser(); // not connected to speakers, so no feedback
   analyser.fftSize = 512;
@@ -357,6 +358,7 @@ export default function CakeRoom({ onBlown }: { onBlown: () => void }) {
     let done = false;
     let introP = 0;
     let boost = 1;
+    let ambient = 0;
 
     const tick = () => {
       raf = requestAnimationFrame(tick);
@@ -371,7 +373,12 @@ export default function CakeRoom({ onBlown }: { onBlown: () => void }) {
       camera.lookAt(0, 1.5 + (1 - e) * 0.6, 0);
 
       // blowing
-      const blowing = goRef.current && (holdRef.current || (micRef.current?.level() ?? 0) > SENSITIVITY);
+      // adaptive threshold: phone mics differ a lot, so learn the room's background level
+      const lvl = micRef.current?.level() ?? 0;
+      const thr = Math.min(SENSITIVITY, Math.max(0.05, ambient * 2.5 + 0.04));
+      const micBlow = lvl > thr;
+      if (!micBlow) ambient += (lvl - ambient) * Math.min(1, dt * 2);
+      const blowing = goRef.current && (holdRef.current || micBlow);
       blowT = blowing ? blowT + dt : Math.max(0, blowT - dt * 0.6);
       const lean = Math.min(blowT / BLOW_SECONDS, 1);
       if (meterRef.current) meterRef.current.style.transform = `scaleX(${lean})`;
@@ -379,6 +386,9 @@ export default function CakeRoom({ onBlown }: { onBlown: () => void }) {
       if (!done && blowT > BLOW_SECONDS) {
         done = true;
         playBlow(n);
+        // release the mic: on iPhones an open mic keeps audio quiet (earpiece routing)
+        micRef.current?.stop();
+        micRef.current = null;
         boost = 5;
         state.forEach((c, i) => (c.outAt = t + i * 0.1));
         setTimeout(() => {

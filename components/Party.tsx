@@ -208,6 +208,13 @@ export default function Party() {
             <p className="hand end-sig">— {CONFIG.from}</p>
           </Reveal>
         </footer>
+
+        <p className="credit">
+          created by {CONFIG.credit.by} –{" "}
+          <a href={CONFIG.credit.url} target="_blank" rel="noopener noreferrer">
+            {CONFIG.credit.linkText}
+          </a>
+        </p>
       </div>
     </main>
   );

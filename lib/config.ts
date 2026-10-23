@@ -4,6 +4,7 @@ export const CONFIG = {
   from: "Dana", // signs the last page: "— me"
   // Local time, no "Z" at the end. Format: YYYY-MM-DDTHH:mm:ss
   birthDate: "1999-10-23T08:30:00",
+credit: { by: "linky", linkText: "gift a website", url: "https://www.instagram.com/linkylb/" },
   candles: 6, // 1-12
   song: "musicbox" as "musicbox" | "classic", // "musicbox" = music-box waltz, "classic" = the original plain tune
   photo: "/guest.png", // any photo, put it in /public

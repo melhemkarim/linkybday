@@ -1,0 +1,8 @@
+[build]
+  command = "npm run build"
+
+# Let this site use the microphone (needed for blowing out the candles).
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Permissions-Policy = "microphone=(self)"

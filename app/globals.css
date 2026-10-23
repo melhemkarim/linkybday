@@ -150,3 +150,8 @@ button { font-family: inherit; }
   .letter { animation: none; opacity: 1; }
   .reveal { opacity: 1; transform: none; transition: none; }
 }
+
+/* ---------- credit ---------- */
+.credit { margin: 10px 0 0; padding: 24px 0 calc(env(safe-area-inset-bottom, 0px) + 34px); text-align: center; font-family: var(--hand); font-weight: 600; font-size: 22px; color: rgba(255,226,189,.6); }
+.credit a { color: var(--amber); text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; padding: 6px 2px; }
+.credit a:hover, .credit a:focus-visible { color: var(--cream); }

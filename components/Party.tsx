@@ -49,6 +49,45 @@ function Photo() {
   );
 }
 
+function Snap({ src, caption, i }: { src: string; caption: string; i: number }) {
+  const [ok, setOk] = useState(true);
+  const tilt = [-5, 4, -3, 5][i % 4];
+  return (
+    <Reveal d={0.1 + i * 0.12} className="snap-wrap">
+      <figure className="snap" style={{ "--r": `${tilt}deg` } as CSSProperties} tabIndex={0}>
+        <div className="ph snap-ph">
+          {ok ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={src} alt={caption} loading="lazy" onError={() => setOk(false)} />
+          ) : (
+            <span className="ph-miss">photo</span>
+          )}
+        </div>
+        <figcaption className="snap-cap">{caption}</figcaption>
+      </figure>
+    </Reveal>
+  );
+}
+
+function Board() {
+  return (
+    <div className="board">
+      <Reveal className="postit-wrap">
+        <div className="postit">
+          <div className="postit-title">{CONFIG.sticky.title}</div>
+          <p>{CONFIG.sticky.text}</p>
+          <div className="postit-sign">{CONFIG.sticky.sign}</div>
+        </div>
+      </Reveal>
+      <div className="snaps">
+        {CONFIG.snaps.map((sn, i) => (
+          <Snap key={i} i={i} src={sn.src} caption={sn.caption} />
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function Days() {
   const [now, setNow] = useState(() => Date.now());
   useEffect(() => {
@@ -119,6 +158,10 @@ export default function Party() {
           <Reveal>
             <Photo />
           </Reveal>
+        </section>
+
+        <section className="sec">
+          <Board />
         </section>
 
         <section className="sec">

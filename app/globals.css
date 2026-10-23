@@ -82,6 +82,34 @@ button { font-family: inherit; }
 .ph-miss { padding: 20px; text-align: center; color: #e8cfb0; line-height: 1.5; font-size: 15px; }
 .cap { margin-top: 14px; text-align: center; font-family: var(--hand); font-weight: 600; font-size: 28px; color: var(--ink); }
 
+/* ---------- sticky note + small polaroids ---------- */
+.page { overflow-x: clip; }
+.board { display: grid; gap: 34px; justify-items: center; align-items: center; }
+.postit-wrap { width: 100%; display: flex; justify-content: center; }
+.postit { position: relative; width: min(300px, 86vw); min-height: 250px; padding: 38px 24px 22px; color: #4a3a12; font-family: var(--hand); font-weight: 600; background: linear-gradient(170deg, #ffe985 0%, #ffd95c 100%); border-radius: 2px 2px 2px 26px / 2px 2px 2px 14px; box-shadow: 0 2px 3px rgba(0,0,0,.25), 0 22px 40px rgba(0,0,0,.45); transform: rotate(-2.5deg); transform-origin: 50% 0; animation: sway 6s ease-in-out infinite; }
+.postit::before { content: ""; position: absolute; top: -14px; left: 50%; width: 96px; height: 28px; margin-left: -48px; background: rgba(255,255,255,.35); border: 1px solid rgba(255,255,255,.25); transform: rotate(2deg); box-shadow: 0 1px 3px rgba(0,0,0,.15); }
+.postit::after { content: ""; position: absolute; right: 0; bottom: 0; width: 34px; height: 34px; background: linear-gradient(135deg, rgba(0,0,0,.16) 0 50%, #f3c63f 50%); border-top-left-radius: 8px; box-shadow: -3px -3px 6px rgba(0,0,0,.12); }
+.postit-title { font-size: 20px; letter-spacing: .04em; opacity: .65; margin-bottom: 8px; }
+.postit p { margin: 0; font-size: clamp(25px, 6.4vw, 30px); line-height: 1.2; }
+.postit-sign { margin-top: 14px; text-align: right; font-size: 26px; }
+
+.snaps { display: flex; flex-wrap: wrap; justify-content: center; align-items: flex-start; gap: 18px 10px; width: 100%; }
+.snap-wrap { flex: 0 0 auto; }
+.snap-wrap:nth-child(2) { margin-top: 26px; }
+.snap { position: relative; margin: 0; width: clamp(84px, 27vw, 140px); padding: 6px 6px 10px; background: var(--paper); box-shadow: 0 14px 28px rgba(0,0,0,.45); transform: rotate(var(--r, 0deg)); transition: transform .3s cubic-bezier(.3, 1.4, .5, 1), box-shadow .3s; cursor: pointer; outline: none; }
+.snap::before { content: ""; position: absolute; top: -8px; left: 50%; width: 42px; height: 15px; margin-left: -21px; background: rgba(255,214,150,.6); transform: rotate(-4deg); }
+.snap:hover, .snap:focus-visible, .snap:active { transform: rotate(0deg) scale(1.12); z-index: 3; box-shadow: 0 22px 40px rgba(0,0,0,.55); }
+.snap-ph { aspect-ratio: 1 / 1; }
+.snap .ph-miss { padding: 6px; font-size: 12px; }
+.snap-cap { margin-top: 6px; text-align: center; font-family: var(--hand); font-weight: 600; font-size: clamp(16px, 4.4vw, 20px); line-height: 1; color: var(--ink); }
+
+@media (min-width: 640px) {
+  .board { grid-template-columns: auto 1fr; gap: 40px; justify-items: start; }
+  .snaps { justify-content: flex-start; gap: 22px 18px; }
+  .snap { width: 140px; }
+}
+@keyframes sway { 0%, 100% { transform: rotate(-2.5deg); } 50% { transform: rotate(-1.2deg); } }
+
 .notes { display: flex; flex-direction: column; gap: 34px; margin-top: 40px; }
 .note-row { display: flex; }
 .note-row:nth-child(even) { justify-content: flex-end; }
@@ -118,7 +146,7 @@ button { font-family: inherit; }
 .end-sig { margin: 0; font-size: 26px; color: var(--amber); }
 
 @media (prefers-reduced-motion: reduce) {
-  .fly, .hero-glow, .polaroid, .flame, .pulse, .scroll i, .big-title, .hero-for, .hero-t, .hero-sub, .hero .ghost, .page { animation: none; }
+  .fly, .hero-glow, .polaroid, .postit, .flame, .pulse, .scroll i, .big-title, .hero-for, .hero-t, .hero-sub, .hero .ghost, .page { animation: none; }
   .letter { animation: none; opacity: 1; }
   .reveal { opacity: 1; transform: none; transition: none; }
 }

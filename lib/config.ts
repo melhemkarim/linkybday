@@ -8,6 +8,18 @@ export const CONFIG = {
   song: "musicbox" as "musicbox" | "classic", // "musicbox" = music-box waltz, "classic" = the original plain tune
   photo: "/guest.png", // any photo, put it in /public
   caption: "Little you is so proud of the big you. I love you.",
+  // The yellow sticky note and the little polaroids next to it.
+  sticky: {
+    title: "psst, read this",
+    text: "I stuck this here so you can't miss it: you are loved more than you know. Happy birthday!",
+    sign: "— me",
+  },
+  // Put these photos in /public (any size, they get cropped square).
+  snaps: [
+    { src: "/snap1.jpeg", caption: "us, lately" },
+    { src: "/snap2.jpeg", caption: "my favourite" },
+    { src: "/snap3.jpeg", caption: "good day" },
+  ],
   // Real little moments work best. Replace these.
   notes: [
     "A song reminded me of you.",
